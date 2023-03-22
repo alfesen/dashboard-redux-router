@@ -1,0 +1,26 @@
+@import '../../../scss/variables.scss';
+@import '../../../scss/mixins.scss';
+
+.carts {
+  background-color: $primary-background;
+  width: 30rem;
+  color: #fff;
+  max-height: 100%;
+  overflow: auto;
+  position: relative;
+
+  &__add {
+    display: block;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 1em;
+    font-size: 1.5rem;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: $secondary-background;
+    }
+  }
+}

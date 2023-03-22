@@ -1,0 +1,44 @@
+@import '../../../scss/variables';
+
+.product {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 30rem;
+  padding: 2em;
+  margin: 1em;
+
+  &__header,
+  &__body {
+    margin-bottom: 1em;
+  }
+
+  &__info,
+  &__total {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__info {
+    margin-bottom: 0.5em;
+  }
+
+  &__total {
+    margin-top: 1em;
+    display: flex;
+  }
+
+  &__actions {
+    text-align: right;
+    margin: 1em 0;
+  }
+  &__add {
+    color: #fff;
+    padding: 0.5em 1em;
+    font-size: 1rem;
+    background-color: $primary-background;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: $secondary-background;
+    }
+  }
+}

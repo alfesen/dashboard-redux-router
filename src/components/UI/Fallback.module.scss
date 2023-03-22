@@ -1,0 +1,9 @@
+@import '../../scss/mixins';
+@import '../../scss/variables';
+
+.fallback {
+  @include message(#fff, 1.2rem);
+  &.dark {
+    @include message($primary-background, 1.2rem);
+  }
+}

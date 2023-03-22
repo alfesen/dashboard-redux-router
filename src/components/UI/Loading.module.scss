@@ -1,0 +1,9 @@
+@import '../../scss/variables.scss';
+@import '../../scss/mixins.scss';
+
+.loading {
+  @include message(#fff, 2rem);
+  &.dark {
+    color: $primary-background;
+  }
+}

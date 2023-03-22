@@ -1,0 +1,13 @@
+@import '../../scss/variables.scss';
+
+.button {
+  padding: 0.5em;
+  appearance: none;
+  background: none;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  &.danger {
+    background-color: $error
+  }
+}

@@ -1,0 +1,42 @@
+@import '../../../scss/variables.scss';
+@import '../../../scss/mixins';
+
+.add {
+  width: 100%;
+  &__cart {
+    padding: 3em;
+  }
+
+  &__products {
+    @include product-list;
+  }
+
+  &__error {
+    padding: 1em;
+    font-size: 1rem;
+  }
+}
+
+.actions {
+  text-align: right;
+  margin: 1em;
+  display: block;
+  &__cancel,
+  &__show {
+    padding: 1em 2em;
+    margin-bottom: 0.5em;
+    width: 100%;
+    height: 5rem;
+    font-size: 1rem;
+    color: #fff;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: $primary-background;
+    }
+  }
+  &__cancel {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+}

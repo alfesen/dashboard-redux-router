@@ -1,0 +1,40 @@
+@import '../../../scss/variables.scss';
+
+.cart {
+  background-color: $primary-background;
+  padding: 0 1em 0;
+  display: flex;
+  color: #fff;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover,
+  &.active {
+    background-color: $secondary-background;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: right;
+    padding: 1em;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    transition: padding 0.2s;
+    &:hover {
+      padding: 1.6em 1em;
+    }
+  }
+
+  &__remove {
+    width: max-content;
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: $primary-background;
+    }
+  }
+}

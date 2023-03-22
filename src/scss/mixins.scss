@@ -1,0 +1,18 @@
+@mixin message($fontColor, $fontSize) {
+  position: absolute;
+  color: $fontColor;
+  font-size: $fontSize;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+@mixin product-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-height: 100%;
+  padding: 3em;
+  overflow: auto;
+  justify-content: center;
+}

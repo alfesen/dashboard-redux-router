@@ -1,0 +1,9 @@
+@import '../../scss/variables.scss';
+.header {
+  text-align: right;
+  padding: 0 1em;
+  line-height: 3rem;
+  background-color: $header-background;
+  color: #fff;
+  box-shadow: 0 0 15px #000000ee;
+}
