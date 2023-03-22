@@ -44,10 +44,10 @@ const Cart = () => {
       id={p.id}
       title={p.title}
       quantity={p.quantity}
-      price={p.price}
+      price={+p.price.toFixed(2)}
       discountPercentage={p.discountPercentage}
-      discountedPrice={p.discountedPrice}
-      total={p.discountedPrice}
+      discountedPrice={+p.discountedPrice.toFixed(2)}
+      total={+p.discountedPrice.toFixed(2)}
     />
   ))
 
