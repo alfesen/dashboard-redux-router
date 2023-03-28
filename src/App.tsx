@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { RouterProvider, createBrowserRouter, Navigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { cartActions } from './redux/cartSlice'
+import { cartListActions } from './redux/cartListSlice'
 import useFetchData from './hooks/useFetchData'
 import MainLayout from './components/Layout/MainLayout'
 import Cart from './components/Features/Cart/Cart'
 import s from './App.module.scss'
 import AddCart from './components/Features/AddCart/AddCart'
 import Fallback from './components/UI/Fallback'
-import { State } from './types'
+import { CartsResponse, State } from './types'
 
-function App() {
-  const lowestId = useSelector((state: State) => state.cart.lowestId)
+function App(): JSX.Element {
+  const lowestId = useSelector(({ cartList }: State) => cartList.lowestId)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -30,9 +30,11 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchCarts = async () => {
-      const { carts } = await sendRequest('https://dummyjson.com/carts')
+      const { carts } = (await sendRequest(
+        'https://dummyjson.com/carts'
+      )) as unknown as CartsResponse
 
-      dispatch(cartActions.getCarts(carts))
+      dispatch(cartListActions.getCarts(carts))
     }
     fetchCarts()
   }, [dispatch, sendRequest])

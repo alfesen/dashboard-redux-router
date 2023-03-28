@@ -3,12 +3,31 @@ import { ReactNode } from 'react'
 export type Reducer<S, A> = (prevState: S, action: A) => S
 
 export type State = {
+  cartList: CartListState
+  addCart: AddCartState
   cart: CartState
+}
+export type CartListState = {
+  carts: Cart[]
+  currentCart: Product[]
+  lowestId: number
 }
 
 export type CartState = {
+  products: Product[]
+}
+
+export type AddCartState = {
+  products: Product[]
+  cartProducts: Product[]
+  overlay: boolean
+}
+
+export type CartsResponse = {
   carts: Cart[]
-  lowestId: number
+  total: number
+  skipped: number
+  limit: number
 }
 
 export type Product = {
@@ -31,6 +50,8 @@ export type Cart = {
   totalProducts: number
   totalQuantity: number
   userId: number
+
+  isDeleted?: boolean
 }
 
 export type CartsListItem = {
@@ -74,4 +95,14 @@ export type Error = {
 export type Fallback = {
   dark?: boolean
   message: string
+}
+
+export type Chart = {
+  labels: string[]
+  datasets: {
+    label: string
+    data: number[]
+    borderColor: string
+    backgroundColor: string
+  }[]
 }

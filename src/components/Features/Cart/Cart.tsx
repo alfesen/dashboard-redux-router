@@ -1,41 +1,40 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import useFetchData from '../../../hooks/useFetchData'
 import ProductItem from '../shared/ProductItem'
-import { Cart as CartType, Product } from '../../../types'
+import { Cart as CartType, Product, State } from '../../../types'
 import Error from '../../UI/Error'
 import Loading from '../../UI/Loading'
 import Fallback from '../../UI/Fallback'
 import LineChart from './LineChart'
 
 import s from './Cart.module.scss'
+import { cartActions } from '../../../redux/cartSlice'
 
 const Cart = () => {
-  const [products, setProducts] = useState<Product[]>([])
   const { sendRequest, error, loading, detachError } = useFetchData()
   const { cartId } = useParams()
-  const carts = useSelector((state: any) => state.cart.carts)
+  const cart = useSelector(({ cartList }: State) => cartList.currentCart)
+  const products = useSelector(({ cart }: State) => cart.products)
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchProducts = async () => {
       if (+cartId! <= 20) {
-        const cart = await sendRequest(
+        const { products } = (await sendRequest(
           `https://dummyjson.com/carts/${+cartId!}`
-        )
-
-        setProducts(cart.products)
+        )) as CartType
+        dispatch(cartActions.getProducts(products))
       }
       return
     }
     if (+cartId! > 20) {
-      const cart = carts.find((c: CartType) => c.id === +cartId!)
-
-      cart && setProducts(cart!.products)
+      cart && dispatch(cartActions.getProducts(cartId))
+      
       return
     }
     fetchProducts()
-  }, [sendRequest, cartId, dispatch, carts])
+  }, [sendRequest, cartId, dispatch, cart])
 
   const renderProducts = products.map((p: Product) => (
     <ProductItem

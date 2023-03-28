@@ -3,15 +3,15 @@ import { NavLink } from 'react-router-dom'
 import CartsListItem from './CartsListItem'
 import s from './CartsList.module.scss'
 import Fallback from '../../UI/Fallback'
+import { Cart, State } from '../../../types'
 
 const CartsList = () => {
-  const carts = useSelector((state: any) => state.cart.carts)
+  const carts = useSelector(({ cartList }: State) => cartList.carts)
 
   const renderCartsListItems = carts.map(
-    ({ id, totalProducts, total }: any) => {
+    ({ id, totalProducts, total }: Cart) => {
       return (
         <CartsListItem
-          aria-label='cart-list-item'
           key={`${id}_cart_list_item_key`}
           id={id}
           totalAmount={total}

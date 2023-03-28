@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import useFetchData from '../../../hooks/useFetchData'
 import { useDispatch } from 'react-redux'
-import { cartActions } from '../../../redux/cartSlice'
-import { CartsListItem as PropsType } from '../../../types'
+import { cartListActions } from '../../../redux/cartListSlice'
+import { Cart, CartsListItem as PropsType } from '../../../types'
 import Button from '../../UI/Button'
 import s from './CartsListItem.module.scss'
 import RemoveModal from './RemoveModal'
@@ -25,17 +25,17 @@ const CartsListItem = ({ id, totalProducts, totalAmount }: PropsType) => {
 
   const confirmDelete = async () => {
     if (id <= 20) {
-      const response = await sendRequest(
+      const response = (await sendRequest(
         `https://dummyjson.com/carts/${id}`,
         'DELETE'
-      )
+      )) as Cart
       if (response.isDeleted) {
         if (+cartId! === id) navigate('/')
-        dispatch(cartActions.removeCartFromCarts(id))
+        dispatch(cartListActions.removeCartFromCarts(id))
       }
     } else {
       if (+cartId! === id) navigate('/')
-      dispatch(cartActions.removeCartFromCarts(id))
+      dispatch(cartListActions.removeCartFromCarts(id))
     }
   }
 

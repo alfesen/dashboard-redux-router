@@ -1,10 +1,11 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { Cart } from '../types'
 
 const useFetchData = () => {
   const [error, setError] = useState<null | string>(null)
   const [loading, setLoading] = useState(false)
 
-  const activeHttpRequests = useRef<any>([])
+  const activeHttpRequests = useRef<AbortController[]>([])
 
   const sendRequest = useCallback(
     async (
@@ -16,8 +17,7 @@ const useFetchData = () => {
       setLoading(true)
       const httpAbort = new AbortController()
       activeHttpRequests.current.push(httpAbort)
-
-      let responseData: any
+      let responseData: Cart | Cart[] = []
       try {
         const response = await fetch(url, {
           method,

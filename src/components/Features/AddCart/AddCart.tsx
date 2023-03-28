@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
-import {useNavigate} from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { cartActions } from '../../../redux/cartSlice'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { cartListActions } from '../../../redux/cartListSlice'
 import useFetchData from '../../../hooks/useFetchData'
-import { Product } from '../../../types'
+import { Cart, Product, State } from '../../../types'
 import Button from '../../UI/Button'
 import Error from '../../UI/Error'
 import Fallback from '../../UI/Fallback'
@@ -12,23 +12,26 @@ import ProductItem from '../shared/ProductItem'
 import { countDiscount } from '../../../helpers'
 import s from './AddCart.module.scss'
 import AddCartOverlay from './AddCartModal'
+import { addCartActions } from '../../../redux/addCartSlice'
 
-const AddCart = () => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [cartProducts, setCartProducts] = useState<Product[]>([])
+const AddCart = (): JSX.Element => {
   const [showOverlay, setShowOverlay] = useState<boolean>(false)
   const { loading, error, detachError, sendRequest } = useFetchData()
   const navigate = useNavigate()
-  
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { products } = await sendRequest('https://dummyjson.com/products')
-      setProducts(products)
-    }
-    fetchProducts()
-  }, [sendRequest])
+  const products = useSelector(({ addCart }: State) => addCart.products)
+  const cartProducts = useSelector(({ addCart }: State) => addCart.cartProducts)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { products } = (await sendRequest(
+        'https://dummyjson.com/products'
+      )) as Cart
+      dispatch(addCartActions.getProducts(products))
+    }
+    fetchProducts()
+  }, [sendRequest, dispatch])
 
   const sendCart = async () => {
     if (cartProducts.length === 0) {
@@ -44,32 +47,25 @@ const AddCart = () => {
       JSON.stringify(newCart),
       { 'Content-Type': 'application/json' }
     )
-    dispatch(cartActions.addCartToCarts(response))
+    dispatch(cartListActions.addCartToCarts(response))
     navigate('/')
   }
 
   const renderProducts = products.map((p: Product) => {
+    const { id, title, price, discountPercentage, total } = p
     const addProductToCart = () => {
-      const existingProduct = cartProducts.find(product => product.id === p.id)
-      if (existingProduct) {
-        const newCartProducts = [...cartProducts]
-        const index = newCartProducts.findIndex(product => product.id === p.id)
-        newCartProducts[index].quantity = newCartProducts[index].quantity! + 1
-        setCartProducts(newCartProducts)
-        return
-      }
-      setCartProducts(prevProd => [...prevProd, { ...p, quantity: 1 }])
+      dispatch(addCartActions.setCartProducts(p))
     }
 
     return (
       <ProductItem
-        key={p.id}
-        id={p.id}
-        title={p.title}
-        price={p.price}
-        discountPercentage={p.discountPercentage}
-        discountedPrice={+countDiscount(p.price, p.discountPercentage)}
-        total={p.total}
+        key={id}
+        id={id}
+        title={title}
+        price={price}
+        discountPercentage={discountPercentage}
+        discountedPrice={+countDiscount(price, discountPercentage)}
+        total={total}
         add
         onAdd={addProductToCart}
       />
